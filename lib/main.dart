@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'providers/story_provider.dart';
+import 'screens/story_screen.dart';
+import 'theme.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Lock to portrait for child-friendliness and consistent layout
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  // Immersive feel with translucent status bar
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),
+  );
+  runApp(const PebloApp());
+}
+
+class PebloApp extends StatelessWidget {
+  const PebloApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => StoryProvider(),
+      child: MaterialApp(
+        title: 'Peblo Story Buddy',
+        debugShowCheckedModeBanner: false,
+        theme: PebloTheme.theme,
+        home: const StoryScreen(),
+      ),
+    );
+  }
+}
